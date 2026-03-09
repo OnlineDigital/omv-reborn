@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NAS-PRO-01 | Storage Management Portal</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<!-- Configuration for Tailwind to support dark mode and custom colors -->
+<script>
+ tailwind.config = {
+ darkMode: 'class',
+ theme: {
+ extend: {
+ colors: {
+ slate: {
+ 850: '#1e293b',
+ 950: '#020617',
+ }
+ },
+ borderRadius: {
+ '2xl': '1rem',
+ }
+ }
+ }
+ }
+ </script>
+<style data-purpose="glassmorphism">
+ .glass-card {
+ background: rgba(30, 41, 59, 0.7);
+ backdrop-filter: blur(12px);
+ -webkit-backdrop-filter: blur(12px);
+ border: 1px solid rgba(255, 255, 255, 0.05);
+ }
+ .custom-scrollbar::-webkit-scrollbar {
+ width: 4px;
+ }
+ .custom-scrollbar::-webkit-scrollbar-track {
+ background: transparent;
+ }
+ .custom-scrollbar::-webkit-scrollbar-thumb {
+ background: #334155;
+ border-radius: 10px;
+ }
+ </style>
+</head>
+<body class="bg-slate-950 text-slate-200 font-sans selection:bg-indigo-500/30">
+<div class="flex h-screen overflow-hidden">
+<!-- BEGIN: Sidebar Navigation -->
+<aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col transition-all duration-300" id="sidebar">
+<div class="p-6 flex items-center gap-3">
+<div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+<i class="text-white w-5 h-5" data-lucide="hard-drive"></i>
+</div>
+<span class="font-bold text-xl tracking-tight">NAS-PRO</span>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-2 custom-scrollbar overflow-y-auto">
+<a class="flex items-center gap-3 px-4 py-3 bg-indigo-600/10 text-indigo-400 rounded-xl transition-all border border-indigo-500/20" href="#">
+<i class="w-5 h-5" data-lucide="layout-dashboard"></i>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-100 rounded-xl transition-all" href="#">
+<i class="w-5 h-5" data-lucide="database"></i>
+<span class="font-medium">Storage</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-100 rounded-xl transition-all" href="#">
+<i class="w-5 h-5" data-lucide="share-2"></i>
+<span class="font-medium">File Sharing</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-100 rounded-xl transition-all" href="#">
+<i class="w-5 h-5" data-lucide="layers"></i>
+<span class="font-medium">Services</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-100 rounded-xl transition-all" href="#">
+<i class="w-5 h-5" data-lucide="shield-check"></i>
+<span class="font-medium">Security</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-100 rounded-xl transition-all" href="#">
+<i class="w-5 h-5" data-lucide="blocks"></i>
+<span class="font-medium">Applications</span>
+</a>
+<div class="pt-4 mt-4 border-t border-slate-800">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-slate-800 hover:text-slate-100 rounded-xl transition-all" href="#">
+<i class="w-5 h-5" data-lucide="settings"></i>
+<span class="font-medium">System Settings</span>
+</a>
+</div>
+</nav>
+<div class="p-4 border-t border-slate-800">
+<div class="flex items-center gap-3 px-2 py-2">
+<div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
+<i class="w-4 h-4 text-slate-300" data-lucide="user"></i>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="text-sm font-medium truncate">admin_user</p>
+<p class="text-xs text-slate-500 truncate">Root Administrator</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- END: Sidebar Navigation -->
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 bg-slate-950 overflow-hidden">
+<!-- BEGIN: Top Header -->
+<header class="h-16 border-b border-slate-800 flex items-center justify-between px-8 bg-slate-900/50 backdrop-blur-md z-10">
+<div class="flex items-center gap-6">
+<div class="relative group">
+<i class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" data-lucide="search"></i>
+<input class="bg-slate-800 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-indigo-500 w-64 transition-all" placeholder="Search parameters..." type="text"/>
+</div>
+<div class="hidden md:flex items-center gap-4 text-xs font-mono text-slate-400">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span>HOST: NAS-PRO-01</span>
+</div>
+<div class="h-4 w-[1px] bg-slate-700"></div>
+<div>UPTIME: 12d 4h 32m</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-400 hover:text-indigo-400 hover:bg-slate-800 rounded-lg relative transition-colors">
+<i class="w-5 h-5" data-lucide="bell"></i>
+<span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-slate-900"></span>
+</button>
+<button class="p-2 text-slate-400 hover:text-indigo-400 hover:bg-slate-800 rounded-lg transition-colors">
+<i class="w-5 h-5" data-lucide="power"></i>
+</button>
+</div>
+</header>
+<!-- END: Top Header -->
+<!-- BEGIN: Dashboard Content -->
+<div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+<!-- Welcome Section -->
+<div class="mb-8">
+<h1 class="text-2xl font-bold">System Dashboard</h1>
+<p class="text-slate-400">Overview of your storage performance and health.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- System Resources Card -->
+<section class="lg:col-span-8 glass-card rounded-2xl p-6 flex flex-col h-[400px]">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-semibold text-lg flex items-center gap-2">
+<i class="w-5 h-5 text-indigo-400" data-lucide="cpu"></i> System Resources
+ </h2>
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 text-xs rounded-md">Live Update</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1">
+<!-- CPU Chart Placeholder (Line) -->
+<div class="md:col-span-2 flex flex-col">
+<div class="flex justify-between items-end mb-2">
+<span class="text-xs text-slate-500 font-mono">CPU Load (Average 15%)</span>
+<span class="text-xs text-indigo-400">Peak: 42%</span>
+</div>
+<div class="flex-1 bg-slate-800/50 rounded-xl relative overflow-hidden border border-slate-700/50">
+<!-- Simulated Line Chart with SVG -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none">
+<path d="M0 80 Q 50 70, 100 85 T 200 60 T 300 75 T 400 50 T 500 65 T 600 80 V 100 H 0 Z" fill="url(#cpuGradient)" fill-opacity="0.1"></path>
+<path d="M0 80 Q 50 70, 100 85 T 200 60 T 300 75 T 400 50 T 500 65 T 600 80" fill="none" stroke="#6366f1" stroke-width="2"></path>
+<defs>
+<lineargradient id="cpuGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#6366f1"></stop>
+<stop offset="100%" stop-color="#6366f1" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+</div>
+<!-- RAM Chart Placeholder (Donut) -->
+<div class="flex flex-col border-l border-slate-800/50 pl-6">
+<div class="flex justify-between items-end mb-2">
+<span class="text-xs text-slate-500 font-mono">RAM Usage (12.4 GB)</span>
+<span class="text-xs text-indigo-400">Total: 32 GB</span>
+</div>
+<div class="flex-1 bg-slate-800/50 rounded-xl relative overflow-hidden border border-slate-700/50 min-h-[160px] mb-4">
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none">
+<path d="M0 85 Q 25 75, 50 82 T 100 65 T 150 78 T 200 55 T 250 70 T 300 85 V 100 H 0 Z" fill="url(#ramGradient)" fill-opacity="0.1"></path>
+<path d="M0 85 Q 25 75, 50 82 T 100 65 T 150 78 T 200 55 T 250 70 T 300 85" fill="none" stroke="#6366f1" stroke-width="2"></path>
+<defs>
+<lineargradient id="ramGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#6366f1"></stop>
+<stop offset="100%" stop-color="#6366f1" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+<div class="w-full space-y-2">
+<div class="flex justify-between text-xs">
+<span class="text-slate-500">Free:</span>
+<span>19.6 GB</span>
+</div>
+<div class="flex justify-between text-xs">
+<span class="text-slate-500">Cached:</span>
+<span>4.2 GB</span>
+</div>
+</div>
+</div>
+</div>
+</section><section class="lg:col-span-4 glass-card rounded-2xl p-6 flex flex-col h-[400px]">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-semibold text-lg flex items-center gap-2">
+<i class="w-5 h-5 text-indigo-400" data-lucide="clock"></i> Recent Activity
+ </h2>
+<button class="text-xs text-slate-500 hover:text-indigo-400">Clear all</button>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar space-y-4 pr-1">
+<!-- Activity 1 -->
+<div class="flex gap-3">
+<div class="mt-1 shrink-0 w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center">
+<i class="w-4 h-4 text-emerald-500" data-lucide="folder-plus"></i>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="text-sm font-medium">New Shared Folder</p>
+<span class="px-1.5 py-0.5 bg-emerald-500/10 text-emerald-500 text-[8px] rounded border border-emerald-500/20 uppercase font-bold">Success</span>
+</div>
+<p class="text-xs text-slate-400 mt-0.5">'media_backup' created successfully.</p>
+<p class="text-[10px] text-slate-500 mt-1">2 mins ago</p>
+</div>
+</div>
+<!-- Activity 2 -->
+<div class="flex gap-3">
+<div class="mt-1 shrink-0 w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center">
+<i class="w-4 h-4 text-indigo-400" data-lucide="download-cloud"></i>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium">Download in Progress</p>
+<p class="text-xs text-slate-400 mt-0.5 italic">'Ubuntu 22.04 ISO'</p>
+<div class="mt-2 flex items-center gap-2">
+<div class="flex-1 bg-slate-800 rounded-full h-1.5">
+<div class="bg-indigo-500 h-full rounded-full" style="width: 65%"></div>
+</div>
+<span class="text-[10px] text-indigo-400 font-mono">65%</span>
+</div>
+</div>
+</div>
+<!-- Activity 3 -->
+<div class="flex gap-3">
+<div class="mt-1 shrink-0 w-8 h-8 rounded-full bg-rose-500/10 flex items-center justify-center">
+<i class="w-4 h-4 text-rose-500" data-lucide="copy"></i>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="text-sm font-medium">File Copy</p>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+<span class="text-[8px] text-amber-500 font-bold uppercase">In Progress</span>
+</div>
+</div>
+<p class="text-xs text-slate-400 mt-0.5">'Photos_2023' (2.4 GB) to 'external_ssd'</p>
+</div>
+</div>
+<!-- Activity 4 -->
+<div class="flex gap-3">
+<div class="mt-1 shrink-0 w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
+<i class="w-4 h-4 text-blue-500" data-lucide="info"></i>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<p class="text-sm font-medium">System Update</p>
+<span class="px-1.5 py-0.5 bg-blue-500/10 text-blue-500 text-[8px] rounded border border-blue-500/20 uppercase font-bold">Info</span>
+</div>
+<p class="text-xs text-slate-400 mt-0.5">Patch 1.0.4 installed.</p>
+<p class="text-[10px] text-slate-500 mt-1">1 hour ago</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Services Card -->
+<!-- Storage Pools Card -->
+<section class="lg:col-span-7 glass-card rounded-2xl p-6">
+<h2 class="font-semibold text-lg flex items-center gap-2 mb-6">
+<i class="w-5 h-5 text-indigo-400" data-lucide="database"></i> ZFS Storage Pools
+ </h2>
+<div class="space-y-6">
+<!-- Pool 01 -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<div class="flex items-center gap-3">
+<span class="font-mono text-sm">tank-media</span>
+<span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-500 text-[10px] rounded border border-emerald-500/20 uppercase font-bold tracking-widest">Healthy</span>
+</div>
+<span class="text-xs text-slate-400">14.2 TB / 24.0 TB</span>
+</div>
+<div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+<div class="bg-indigo-500 h-full rounded-full" style="width: 59.1%"></div>
+</div>
+<div class="mt-2 flex justify-between text-[10px] text-slate-500 uppercase tracking-tighter">
+<span>RAID-Z2 | 6 Disks</span>
+<span>Scrub: 100% Complete</span>
+</div>
+</div>
+<!-- Pool 02 -->
+<div>
+<div class="flex justify-between items-center mb-2">
+<div class="flex items-center gap-3">
+<span class="font-mono text-sm">ssd-cache</span>
+<span class="px-2 py-0.5 bg-indigo-500/10 text-indigo-500 text-[10px] rounded border border-indigo-500/20 uppercase font-bold tracking-widest">Scrubbing</span>
+</div>
+<span class="text-xs text-slate-400">420 GB / 2.0 TB</span>
+</div>
+<div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+<div class="bg-indigo-400 h-full rounded-full" style="width: 21%"></div>
+</div>
+<div class="mt-2 flex justify-between text-[10px] text-slate-500 uppercase tracking-tighter">
+<span>Mirror | 2 Disks</span>
+<span class="text-indigo-400 animate-pulse">42% Progress...</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Network Traffic Card -->
+<section class="lg:col-span-5 glass-card rounded-2xl p-6">
+<h2 class="font-semibold text-lg flex items-center gap-2 mb-6">
+<i class="w-5 h-5 text-indigo-400" data-lucide="arrow-up-down"></i> Network Activity
+ </h2>
+<div class="h-40 w-full mb-4">
+<!-- Simulated Network Area Chart -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 40">
+<path d="M0 40 L0 30 Q 25 25, 50 35 T 100 20 L 100 40 Z" fill="#6366f1" fill-opacity="0.1"></path>
+<path d="M0 30 Q 25 25, 50 35 T 100 20" fill="none" stroke="#6366f1" stroke-width="1"></path>
+<path d="M0 40 L0 35 Q 25 38, 50 20 T 100 25 L 100 40 Z" fill="#ec4899" fill-opacity="0.1"></path>
+<path d="M0 35 Q 25 38, 50 20 T 100 25" fill="none" stroke="#ec4899" stroke-width="1"></path>
+</svg>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-slate-800/40 rounded-xl border border-slate-700/30">
+<p class="text-xs text-slate-500 mb-1">Inbound (RX)</p>
+<p class="text-xl font-bold text-indigo-400">452.8 <span class="text-xs font-normal text-slate-400">Mb/s</span></p>
+</div>
+<div class="p-3 bg-slate-800/40 rounded-xl border border-slate-700/30">
+<p class="text-xs text-slate-500 mb-1">Outbound (TX)</p>
+<p class="text-xl font-bold text-rose-400">12.1 <span class="text-xs font-normal text-slate-400">Mb/s</span></p>
+</div>
+</div>
+</section>
+<!-- Disk I/O Card -->
+<section class="lg:col-span-8 glass-card rounded-2xl p-6">
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-semibold text-lg flex items-center gap-2">
+<i class="w-5 h-5 text-indigo-400" data-lucide="hard-drive"></i> Disk Diagnostics &amp; I/O
+ </h2>
+<div class="text-xs font-mono text-slate-500">Total Read: 24.5 GB | Total Write: 1.2 TB</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="md:col-span-1 flex flex-col justify-center gap-4">
+<div class="p-4 bg-slate-900 rounded-xl border border-slate-800">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[10px] text-slate-500 uppercase">Current Read</span>
+<span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+</div>
+<p class="text-2xl font-bold">128.4 <span class="text-sm font-normal text-slate-500">MB/s</span></p>
+</div>
+<div class="p-4 bg-slate-900 rounded-xl border border-slate-800">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[10px] text-slate-500 uppercase">Current Write</span>
+<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+</div>
+<p class="text-2xl font-bold">4.2 <span class="text-sm font-normal text-slate-500">MB/s</span></p>
+</div>
+</div>
+<div class="md:col-span-3">
+<div class="space-y-3">
+<!-- Disk Item: sda -->
+<div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800/50 flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<span class="font-mono text-indigo-400 font-medium">sda</span>
+<span class="px-2 py-0.5 bg-slate-800 text-slate-300 text-[10px] rounded border border-slate-700">34°C</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-xs text-slate-400">WD Red Plus 4TB <span class="mx-1 text-slate-600">•</span> 82% Usage</span>
+<span class="text-[10px] font-bold text-emerald-500 tracking-wider uppercase">PASSED</span>
+</div>
+</div>
+<!-- Disk Item: sdb -->
+<div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800/50 flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<span class="font-mono text-indigo-400 font-medium">sdb</span>
+<span class="px-2 py-0.5 bg-slate-800 text-slate-300 text-[10px] rounded border border-slate-700">36°C</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-xs text-slate-400">WD Red Plus 4TB <span class="mx-1 text-slate-600">•</span> 82% Usage</span>
+<span class="text-[10px] font-bold text-emerald-500 tracking-wider uppercase">PASSED</span>
+</div>
+</div>
+<!-- Disk Item: sdc -->
+<div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800/50 flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<span class="font-mono text-indigo-400 font-medium">sdc</span>
+<span class="px-2 py-0.5 bg-slate-800 text-slate-300 text-[10px] rounded border border-slate-700">41°C</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-xs text-slate-400">Samsung 970 EVO <span class="mx-1 text-slate-600">•</span> 12% Usage</span>
+<span class="text-[10px] font-bold text-emerald-500 tracking-wider uppercase">PASSED</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section><section class="lg:col-span-4 glass-card rounded-2xl p-6 flex flex-col">
+<h2 class="font-semibold text-lg flex items-center gap-2 mb-6">
+<i class="w-5 h-5 text-indigo-400" data-lucide="activity"></i> Core Services
+ </h2>
+<div class="space-y-4">
+<!-- Service Item -->
+<div class="flex items-center justify-between p-3 bg-slate-800/30 rounded-xl border border-slate-700/30">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-emerald-500/10 rounded-lg">
+<i class="w-4 h-4 text-emerald-500" data-lucide="folder-tree"></i>
+</div>
+<div>
+<p class="text-sm font-medium">Samba (SMB)</p>
+<p class="text-[10px] text-slate-500">Running • 2 Connections</p>
+</div>
+</div>
+<div class="w-10 h-5 bg-indigo-600 rounded-full relative cursor-pointer">
+<div class="absolute right-0.5 top-0.5 w-4 h-4 bg-white rounded-full"></div>
+</div>
+</div>
+<!-- Service Item -->
+<div class="flex items-center justify-between p-3 bg-slate-800/30 rounded-xl border border-slate-700/30">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-emerald-500/10 rounded-lg">
+<i class="w-4 h-4 text-emerald-500" data-lucide="terminal"></i>
+</div>
+<div>
+<p class="text-sm font-medium">SSH Server</p>
+<p class="text-[10px] text-slate-500">Running • Port 22</p>
+</div>
+</div>
+<div class="w-10 h-5 bg-indigo-600 rounded-full relative cursor-pointer">
+<div class="absolute right-0.5 top-0.5 w-4 h-4 bg-white rounded-full"></div>
+</div>
+</div>
+<!-- Service Item -->
+<div class="flex items-center justify-between p-3 bg-slate-800/30 rounded-xl border border-slate-700/30 opacity-60">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-slate-500/10 rounded-lg">
+<i class="w-4 h-4 text-slate-500" data-lucide="shield-alert"></i>
+</div>
+<div>
+<p class="text-sm font-medium">Fail2Ban</p>
+<p class="text-[10px] text-slate-500">Disabled</p>
+</div>
+</div>
+<div class="w-10 h-5 bg-slate-700 rounded-full relative cursor-pointer">
+<div class="absolute left-0.5 top-0.5 w-4 h-4 bg-slate-400 rounded-full"></div>
+</div>
+</div>
+<!-- Service Item -->
+<div class="flex items-center justify-between p-3 bg-slate-800/30 rounded-xl border border-slate-700/30">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-emerald-500/10 rounded-lg">
+<i class="w-4 h-4 text-emerald-500" data-lucide="workflow"></i>
+</div>
+<div>
+<p class="text-sm font-medium">ZFS Daemon</p>
+<p class="text-[10px] text-slate-500">Healthy • Scanned 2h ago</p>
+</div>
+</div>
+<div class="w-10 h-5 bg-indigo-600 rounded-full relative cursor-pointer">
+<div class="absolute right-0.5 top-0.5 w-4 h-4 bg-white rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- END: Dashboard Content -->
+</main>
+</div>
+<script data-purpose="lucide-initialization">
+ // Initialize Lucide icons
+ lucide.createIcons();
+ </script>
+<script data-purpose="sidebar-toggle">
+ // Simple logic to demonstrate sidebar collapse if needed (placeholder)
+ const sidebar = document.getElementById('sidebar');
+ // You could add a toggle button in the header and hook it up here
+ </script>
+</body></html>
